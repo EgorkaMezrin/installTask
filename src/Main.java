@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -44,12 +46,10 @@ public class Main {
         }
         else logs.append("Файл temp не создан\n");
 
-        FileWriter fw = new FileWriter(temp);
-        fw.write(logs.toString());
+        FileWriter fw = new FileWriter("D://Games/temp/temp.txt");
+        fw.write(String.valueOf(logs));
+        fw.flush();
 
         System.out.println(logs);
-
-
-
     }
 }
