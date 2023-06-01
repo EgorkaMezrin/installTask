@@ -4,52 +4,66 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String[] dirNamesGames = new String[] {"src", "res", "savegames", "temp"};
-        String[] dirNamesSrc = new String[] {"main", "test"};
-        String[] fileNamesMain = new String[] {"Main.java", "Utils.java"};
-        String[] dirNamesRes = new String[] {"drawables", "vectors", "icons"};
-        StringBuilder logs = new StringBuilder();
+        List<File> dir = Arrays.asList(
+                new File("C://Games"),
+                new File("C://Games/src"),
+                new File("C://Games/res"),
+                new File("C://Games/savegames"),
+                new File("C://Games/temp"),
+                new File("C://Games/src/main"),
+                new File("C://Games/src/main"),
+                new File("C://Games/src/test"),
+                new File("C://Games/res/drawables"),
+                new File("C://Games/res/vectors"),
+                new File("C://Games/res/icons")
+        );
+        List<File> file = Arrays.asList(
+                new File("C://Games/src/main", "Main.java"),
+                new File("C://Games/src/main", "Utils.java"),
+                new File("C://Games/temp", "temp.txt")
+        );
+        StringBuilder log = new StringBuilder();
 
-
-        for(String name: dirNamesGames){
-            File dir = new File("D://Games/" + name);
-            dir.mkdir();
-            logs.append("Корневая папка " + name + " создана\n");
-        }
-
-        for(String name: dirNamesSrc){
-            File dir = new File("D://Games/src/" + name);
-            dir.mkdir();
-            logs.append("Папка в каталоге src " + name + " создана\n");
-        }
-
-        for(String name: fileNamesMain){
-            File file = new File("D://Games/main" + name);
-
-            if(file.createNewFile()){
-                logs.append("Файл " + name + " создан\n");
+        dir.forEach(currentDir ->{
+            if (currentDir.mkdir()){
+                System.out.println("Папка -"+ currentDir + "- создана");
+                log.append("Папка -"+ currentDir + "- создана" + "\n");
+            }else {
+                System.out.println("Папка -"+ currentDir + "- уже существует");
+                log.append("Папка -"+ currentDir + "- уже существует" + "\n");
             }
-            else logs.append("Файл " + name + " не создан\n");
+        });
 
+        file.forEach(currentFile ->{
+            if (currentFile.mkdir()){
+                System.out.println("Папка -"+ currentFile + "- создана");
+                log.append("Папка -"+ currentFile + "- создана" + "\n");
+            }else {
+                System.out.println("Папка -"+ currentFile + "- уже существует");
+                log.append("Папка -"+ currentFile + "- уже существует" + "\n");
+            }
+        });
+
+        try (FileWriter writer = new FileWriter("C://Games/temp/temp.txt", true)){
+            writer.write(log +"\n");
+            writer.flush();
+        }catch (IOException ex){
+            System.out.println(ex.getMessage());
         }
 
-        for(String name: dirNamesRes){
-            File dir = new File("D://Games/res/" + name);
-            dir.mkdir();
-            logs.append("Папка в каталоге res " + name + " создана\n");
-        }
 
-        File temp = new File("D://Games/temp",  "temp.txt");
+   }
 
-        if(temp.createNewFile()){
-            logs.append("Файл temp создан\n");
-        }
-        else logs.append("Файл temp не создан\n");
+//    public static void crDir(String nameDir) {
+//        File dir = new File(nameDir);
+//        dir.mkdir();
+//    }
 
-        FileWriter fw = new FileWriter("D://Games/temp/temp.txt");
-        fw.write(String.valueOf(logs));
-        fw.flush();
-
-        System.out.println(logs);
-    }
+//    public static String crFile(String nameFile) throws IOException {
+//        File file = new File(nameFile);
+//        if(file.createNewFile()){
+//            return "Файл " + nameFile + " создан";
+//        } else return "Файл "+ nameFile + " не создан";
+//
+//    }
 }
